@@ -1,0 +1,3113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GoBus - Online Bus Ticket Booking</title>
+
+    <meta
+        name="description"
+        content="GoBus online bus ticket booking platform"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div id="toastContainer" class="toast-container"></div>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar" id="mainNavbar">
+
+    <div class="container nav-inner">
+
+        <a href="#" class="brand" onclick="showHome()">
+            <span class="brand-icon">
+                <i class="fa-solid fa-bus-simple"></i>
+            </span>
+
+            <span>
+                <strong>Go</strong>Bus
+            </span>
+        </a>
+
+        <nav class="desktop-nav">
+
+            <a href="#home" onclick="showHome()">Home</a>
+            <a href="#routes">Routes</a>
+            <a href="#categories">Bus Types</a>
+            <a href="#about">About</a>
+
+            <button
+                class="nav-login-btn"
+                onclick="openLoginModal()"
+            >
+                <i class="fa-regular fa-user"></i>
+                Login
+            </button>
+
+        </nav>
+
+        <button
+            class="mobile-menu-btn"
+            onclick="toggleMobileMenu()"
+            aria-label="Open menu"
+        >
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="#home" onclick="closeMobileMenu(); showHome()">Home</a>
+        <a href="#routes" onclick="closeMobileMenu()">Routes</a>
+        <a href="#categories" onclick="closeMobileMenu()">Bus Types</a>
+        <a href="#about" onclick="closeMobileMenu()">About</a>
+
+        <button onclick="closeMobileMenu(); openLoginModal()">
+            Login
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     HOME PAGE
+========================================================= -->
+
+<main id="homePage">
+
+    <!-- HERO -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content">
+
+            <div class="hero-copy">
+
+                <div class="hero-badge">
+                    <i class="fa-solid fa-circle-check"></i>
+                    India's smarter way to travel
+                </div>
+
+                <h1>
+                    Your journey starts
+                    <span>with one click.</span>
+                </h1>
+
+                <p>
+                    Discover comfortable buses, compare prices,
+                    choose your perfect seat and book your journey
+                    in minutes.
+                </p>
+
+                <div class="hero-stats">
+
+                    <div>
+                        <strong>500+</strong>
+                        <span>Routes</span>
+                    </div>
+
+                    <div>
+                        <strong>120+</strong>
+                        <span>Buses</span>
+                    </div>
+
+                    <div>
+                        <strong>50K+</strong>
+                        <span>Travellers</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SEARCH CARD -->
+
+        <div class="container hero-search-wrapper">
+
+            <div class="search-card">
+
+                <div class="search-card-heading">
+                    <div>
+                        <span class="eyebrow">BOOK YOUR JOURNEY</span>
+                        <h2>Where are you going?</h2>
+                    </div>
+
+                    <div class="secure-search">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Safe & secure booking
+                    </div>
+                </div>
+
+                <form id="searchForm">
+
+                    <div class="search-fields">
+
+                        <div class="field-group">
+
+                            <label>
+                                <i class="fa-solid fa-location-dot"></i>
+                                From
+                            </label>
+
+                            <select id="fromCity" required>
+                                <option value="">Select city</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Coimbatore">Coimbatore</option>
+                                <option value="Madurai">Madurai</option>
+                                <option value="Pondicherry">Pondicherry</option>
+                                <option value="Trichy">Trichy</option>
+                                <option value="Salem">Salem</option>
+                            </select>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="swap-btn"
+                            onclick="swapCities()"
+                            title="Swap cities"
+                        >
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+
+                        <div class="field-group">
+
+                            <label>
+                                <i class="fa-solid fa-location-dot"></i>
+                                To
+                            </label>
+
+                            <select id="toCity" required>
+                                <option value="">Select city</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Coimbatore">Coimbatore</option>
+                                <option value="Madurai">Madurai</option>
+                                <option value="Pondicherry">Pondicherry</option>
+                                <option value="Trichy">Trichy</option>
+                                <option value="Salem">Salem</option>
+                            </select>
+
+                        </div>
+
+                        <div class="field-group">
+
+                            <label>
+                                <i class="fa-regular fa-calendar"></i>
+                                Travel date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="travelDate"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="field-group">
+
+                            <label>
+                                <i class="fa-regular fa-clock"></i>
+                                Departure
+                            </label>
+
+                            <select id="departureTime">
+
+                                <option value="all">Any time</option>
+                                <option value="morning">Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                                <option value="evening">Evening</option>
+                                <option value="night">Night</option>
+
+                            </select>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="primary-btn search-btn"
+                        >
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Search Buses
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <div class="quick-routes">
+
+                    <span>Popular:</span>
+
+                    <button onclick="quickRoute('Chennai','Bangalore')">
+                        Chennai → Bangalore
+                    </button>
+
+                    <button onclick="quickRoute('Chennai','Coimbatore')">
+                        Chennai → Coimbatore
+                    </button>
+
+                    <button onclick="quickRoute('Bangalore','Hyderabad')">
+                        Bangalore → Hyderabad
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="section features-section">
+
+        <div class="container">
+
+            <div class="section-heading center">
+
+                <span class="eyebrow">WHY GOBUS</span>
+
+                <h2>
+                    Everything you need for
+                    <span>a better journey</span>
+                </h2>
+
+                <p>
+                    From choosing your bus to reaching your destination,
+                    we keep the experience simple.
+                </p>
+
+            </div>
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon blue">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <h3>Easy Search</h3>
+
+                    <p>
+                        Compare buses, timings, routes and prices
+                        in one place.
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon orange">
+                        <i class="fa-solid fa-chair"></i>
+                    </div>
+
+                    <h3>Choose Your Seat</h3>
+
+                    <p>
+                        See the live seat layout and select
+                        exactly where you want to sit.
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon green">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <h3>Secure Booking</h3>
+
+                    <p>
+                        Your booking information is protected
+                        throughout the journey.
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon purple">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+
+                    <h3>Travel Support</h3>
+
+                    <p>
+                        Keep your booking details and journey
+                        information accessible anytime.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- POPULAR ROUTES -->
+
+    <section class="section light-section" id="routes">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">TOP DESTINATIONS</span>
+
+                    <h2>
+                        Popular <span>routes</span>
+                    </h2>
+                </div>
+
+                <button
+                    class="outline-btn"
+                    onclick="document.getElementById('searchForm').scrollIntoView({behavior:'smooth'})"
+                >
+                    Search all routes
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </div>
+
+            <div class="route-grid">
+
+                <div
+                    class="route-card"
+                    onclick="quickRoute('Chennai','Bangalore')"
+                >
+
+                    <img
+                        src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=80"
+                        alt="Bus journey"
+                    >
+
+                    <div class="route-overlay">
+
+                        <span>South India</span>
+
+                        <h3>Chennai → Bangalore</h3>
+
+                        <div>
+                            <span>From</span>
+                            <strong>₹699</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="route-card"
+                    onclick="quickRoute('Chennai','Coimbatore')"
+                >
+
+                    <img
+                        src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=900&q=80"
+                        alt="Bus"
+                    >
+
+                    <div class="route-overlay">
+
+                        <span>Tamil Nadu</span>
+
+                        <h3>Chennai → Coimbatore</h3>
+
+                        <div>
+                            <span>From</span>
+                            <strong>₹599</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="route-card"
+                    onclick="quickRoute('Bangalore','Hyderabad')"
+                >
+
+                    <img
+                        src="https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?auto=format&fit=crop&w=900&q=80"
+                        alt="Travel"
+                    >
+
+                    <div class="route-overlay">
+
+                        <span>Interstate</span>
+
+                        <h3>Bangalore → Hyderabad</h3>
+
+                        <div>
+                            <span>From</span>
+                            <strong>₹799</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUS CATEGORIES -->
+
+    <section class="section" id="categories">
+
+        <div class="container">
+
+            <div class="section-heading center">
+
+                <span class="eyebrow">TRAVEL YOUR WAY</span>
+
+                <h2>
+                    Choose your
+                    <span>bus type</span>
+                </h2>
+
+                <p>
+                    Comfortable options for every type of journey.
+                </p>
+
+            </div>
+
+            <div class="category-grid">
+
+                <div class="category-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=900&q=80"
+                        alt="Volvo bus"
+                    >
+
+                    <div class="category-content">
+
+                        <div class="category-icon">
+                            <i class="fa-solid fa-bus"></i>
+                        </div>
+
+                        <h3>Volvo AC</h3>
+
+                        <p>
+                            Premium air-conditioned travel
+                            with comfortable seats.
+                        </p>
+
+                        <button
+                            onclick="searchCategory('Volvo AC')"
+                        >
+                            Explore buses
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="category-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1610557892470-a2f1f0d1d7e0?auto=format&fit=crop&w=900&q=80"
+                        alt="Sleeper bus"
+                    >
+
+                    <div class="category-content">
+
+                        <div class="category-icon">
+                            <i class="fa-solid fa-bed"></i>
+                        </div>
+
+                        <h3>Sleeper Coach</h3>
+
+                        <p>
+                            Relax and sleep comfortably
+                            during long-distance travel.
+                        </p>
+
+                        <button
+                            onclick="searchCategory('Sleeper')"
+                        >
+                            Explore buses
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="category-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=80"
+                        alt="Coach bus"
+                    >
+
+                    <div class="category-content">
+
+                        <div class="category-icon">
+                            <i class="fa-solid fa-road"></i>
+                        </div>
+
+                        <h3>Premium Coach</h3>
+
+                        <p>
+                            Affordable and comfortable
+                            intercity bus travel.
+                        </p>
+
+                        <button
+                            onclick="searchCategory('Coach')"
+                        >
+                            Explore buses
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section class="section about-section" id="about">
+
+        <div class="container about-grid">
+
+            <div class="about-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+                    alt="Road trip"
+                >
+
+                <div class="experience-card">
+
+                    <strong>10+</strong>
+
+                    <span>
+                        Years of<br>
+                        travel experience
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="about-content">
+
+                <span class="eyebrow">ABOUT GOBUS</span>
+
+                <h2>
+                    Travel more.
+                    <span>Worry less.</span>
+                </h2>
+
+                <p>
+                    GoBus is designed to make bus travel simple,
+                    transparent and convenient. Search routes,
+                    compare buses, select seats and manage your
+                    bookings from one place.
+                </p>
+
+                <div class="about-points">
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Transparent pricing</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Easy seat selection</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Digital booking history</span>
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Simple cancellation</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta-section">
+
+        <div class="container cta-inner">
+
+            <div>
+
+                <span class="eyebrow">READY TO TRAVEL?</span>
+
+                <h2>
+                    Your next adventure
+                    is just a booking away.
+                </h2>
+
+            </div>
+
+            <button
+                class="white-btn"
+                onclick="document.getElementById('searchForm').scrollIntoView({behavior:'smooth'})"
+            >
+                Find a Bus
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     SEARCH RESULTS PAGE
+========================================================= -->
+
+<section id="resultsPage" class="app-page hidden">
+
+    <div class="results-header">
+
+        <div class="container">
+
+            <button
+                class="back-link"
+                onclick="showHome()"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to home
+            </button>
+
+            <div class="results-title-row">
+
+                <div>
+
+                    <span class="eyebrow">AVAILABLE BUSES</span>
+
+                    <h1 id="resultsTitle">
+                        Chennai → Bangalore
+                    </h1>
+
+                    <p id="resultsSubtitle">
+                        Select a bus that fits your journey.
+                    </p>
+
+                </div>
+
+                <div class="results-date" id="resultsDate">
+                    Today
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="container results-layout">
+
+        <aside class="filters-card">
+
+            <div class="filter-title">
+
+                <h3>Filter buses</h3>
+
+                <button onclick="resetFilters()">
+                    Reset
+                </button>
+
+            </div>
+
+            <div class="filter-group">
+
+                <label>Bus type</label>
+
+                <label class="check-label">
+                    <input type="checkbox" value="Volvo AC" class="type-filter">
+                    Volvo AC
+                </label>
+
+                <label class="check-label">
+                    <input type="checkbox" value="Sleeper" class="type-filter">
+                    Sleeper
+                </label>
+
+                <label class="check-label">
+                    <input type="checkbox" value="Coach" class="type-filter">
+                    Coach
+                </label>
+
+            </div>
+
+            <div class="filter-group">
+
+                <label>Departure</label>
+
+                <label class="radio-label">
+                    <input type="radio" name="timeFilter" value="all" checked>
+                    All
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="timeFilter" value="morning">
+                    Morning
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="timeFilter" value="afternoon">
+                    Afternoon
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="timeFilter" value="evening">
+                    Evening
+                </label>
+
+                <label class="radio-label">
+                    <input type="radio" name="timeFilter" value="night">
+                    Night
+                </label>
+
+            </div>
+
+            <div class="filter-group">
+
+                <label>Price range</label>
+
+                <input
+                    type="range"
+                    id="priceFilter"
+                    min="300"
+                    max="2500"
+                    step="50"
+                    value="2500"
+                    oninput="updatePriceLabel()"
+                >
+
+                <div class="range-label">
+                    <span>₹300</span>
+                    <strong id="priceLabel">₹2500</strong>
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <div class="results-content">
+
+            <div class="results-toolbar">
+
+                <span id="resultCount">
+                    0 buses found
+                </span>
+
+                <select id="sortBuses" onchange="renderBusResults()">
+
+                    <option value="recommended">
+                        Recommended
+                    </option>
+
+                    <option value="priceLow">
+                        Price: Low to High
+                    </option>
+
+                    <option value="priceHigh">
+                        Price: High to Low
+                    </option>
+
+                    <option value="departure">
+                        Earliest Departure
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div id="busResults"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     USER DASHBOARD
+========================================================= -->
+
+<section id="userApp" class="dashboard-page hidden">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="userSidebar">
+
+            <div class="sidebar-brand">
+
+                <span class="brand-icon">
+                    <i class="fa-solid fa-bus-simple"></i>
+                </span>
+
+                <span>
+                    <strong>Go</strong>Bus
+                </span>
+
+            </div>
+
+            <div class="profile-mini">
+
+                <div class="avatar" id="userAvatar">
+                    U
+                </div>
+
+                <div>
+
+                    <strong id="sidebarUserName">
+                        User
+                    </strong>
+
+                    <span>Passenger</span>
+
+                </div>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <button
+                    class="sidebar-link active"
+                    data-section="overview"
+                    onclick="showUserSection('overview')"
+                >
+                    <i class="fa-solid fa-grid-2"></i>
+                    Overview
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-section="bookings"
+                    onclick="showUserSection('bookings')"
+                >
+                    <i class="fa-solid fa-ticket"></i>
+                    My Bookings
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-section="profile"
+                    onclick="showUserSection('profile')"
+                >
+                    <i class="fa-regular fa-user"></i>
+                    My Profile
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-section="password"
+                    onclick="showUserSection('password')"
+                >
+                    <i class="fa-solid fa-lock"></i>
+                    Change Password
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <button onclick="showHome()">
+                    <i class="fa-solid fa-house"></i>
+                    Back to website
+                </button>
+
+                <button onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+        <div class="dashboard-main">
+
+            <header class="dashboard-topbar">
+
+                <button
+                    class="dashboard-menu"
+                    onclick="toggleUserSidebar()"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div>
+
+                    <span class="eyebrow">PASSENGER PORTAL</span>
+
+                    <h1 id="dashboardGreeting">
+                        Welcome back
+                    </h1>
+
+                </div>
+
+                <div class="topbar-actions">
+
+                    <button
+                        class="icon-btn"
+                        onclick="showUserSection('bookings')"
+                    >
+                        <i class="fa-solid fa-ticket"></i>
+                    </button>
+
+                    <div class="top-avatar" id="topAvatar">
+                        U
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- USER OVERVIEW -->
+
+            <div
+                class="dashboard-section active"
+                id="user-overview"
+            >
+
+                <div class="welcome-banner">
+
+                    <div>
+
+                        <span>YOUR NEXT JOURNEY</span>
+
+                        <h2 id="nextTripTitle">
+                            No upcoming trip
+                        </h2>
+
+                        <p id="nextTripDetails">
+                            Book your next bus journey with GoBus.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="white-btn"
+                        onclick="showHome()"
+                    >
+                        Book a Bus
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Total bookings</span>
+
+                            <strong id="totalBookingsStat">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Completed trips</span>
+
+                            <strong id="completedBookingsStat">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-road"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Upcoming trips</span>
+
+                            <strong id="upcomingBookingsStat">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Total spent</span>
+
+                            <strong id="totalSpentStat">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-columns">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <span class="eyebrow">RECENT ACTIVITY</span>
+                                <h3>Recent bookings</h3>
+                            </div>
+
+                            <button
+                                onclick="showUserSection('bookings')"
+                            >
+                                View all
+                            </button>
+
+                        </div>
+
+                        <div id="recentBookings"></div>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+                                <span class="eyebrow">QUICK ACTION</span>
+                                <h3>Need something?</h3>
+                            </div>
+
+                        </div>
+
+                        <div class="quick-actions">
+
+                            <button onclick="showHome()">
+                                <span class="quick-icon blue">
+                                    <i class="fa-solid fa-bus"></i>
+                                </span>
+                                <span>
+                                    <strong>Find a bus</strong>
+                                    <small>Search available buses</small>
+                                </span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                            <button onclick="showUserSection('profile')">
+                                <span class="quick-icon purple">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <span>
+                                    <strong>Update profile</strong>
+                                    <small>Manage your information</small>
+                                </span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                            <button onclick="showUserSection('password')">
+                                <span class="quick-icon orange">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <span>
+                                    <strong>Security</strong>
+                                    <small>Change your password</small>
+                                </span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- USER BOOKINGS -->
+
+            <div
+                class="dashboard-section"
+                id="user-bookings"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">TRAVEL HISTORY</span>
+
+                        <h2>My bookings</h2>
+
+                        <p>
+                            Manage and review all your journeys.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="showHome()"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        New booking
+                    </button>
+
+                </div>
+
+                <div id="userBookingsList"></div>
+
+            </div>
+
+
+            <!-- USER PROFILE -->
+
+            <div
+                class="dashboard-section"
+                id="user-profile"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">ACCOUNT</span>
+
+                        <h2>My profile</h2>
+
+                        <p>
+                            Update your personal information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="profile-form-card">
+
+                    <form id="profileForm">
+
+                        <div class="profile-avatar-large" id="profileAvatar">
+                            U
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label>Full name</label>
+
+                                <input
+                                    type="text"
+                                    id="profileName"
+                                    required
+                                >
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Email</label>
+
+                                <input
+                                    type="email"
+                                    id="profileEmail"
+                                    disabled
+                                >
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>Phone number</label>
+
+                                <input
+                                    type="tel"
+                                    id="profilePhone"
+                                >
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label>City</label>
+
+                                <input
+                                    type="text"
+                                    id="profileCity"
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                        >
+                            Save changes
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHANGE PASSWORD -->
+
+            <div
+                class="dashboard-section"
+                id="user-password"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">SECURITY</span>
+
+                        <h2>Change password</h2>
+
+                        <p>
+                            Keep your account secure.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="password-card">
+
+                    <div class="security-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <form id="passwordForm">
+
+                        <div class="form-group">
+
+                            <label>Current password</label>
+
+                            <input
+                                type="password"
+                                id="currentPassword"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>New password</label>
+
+                            <input
+                                type="password"
+                                id="newPassword"
+                                required
+                                minlength="6"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Confirm new password</label>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                required
+                                minlength="6"
+                            >
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                        >
+                            Update password
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN DASHBOARD
+========================================================= -->
+
+<section id="adminApp" class="dashboard-page hidden">
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar admin-sidebar" id="adminSidebar">
+
+            <div class="sidebar-brand">
+
+                <span class="brand-icon">
+                    <i class="fa-solid fa-bus-simple"></i>
+                </span>
+
+                <span>
+                    <strong>Go</strong>Bus
+                </span>
+
+            </div>
+
+            <div class="admin-label">
+                ADMINISTRATION
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <button
+                    class="sidebar-link active"
+                    data-admin-section="dashboard"
+                    onclick="showAdminSection('dashboard')"
+                >
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Dashboard
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-admin-section="buses"
+                    onclick="showAdminSection('buses')"
+                >
+                    <i class="fa-solid fa-bus"></i>
+                    Buses
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-admin-section="bookings"
+                    onclick="showAdminSection('bookings')"
+                >
+                    <i class="fa-solid fa-ticket"></i>
+                    Bookings
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-admin-section="users"
+                    onclick="showAdminSection('users')"
+                >
+                    <i class="fa-solid fa-users"></i>
+                    Users
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-admin-section="comments"
+                    onclick="showAdminSection('comments')"
+                >
+                    <i class="fa-solid fa-comments"></i>
+                    Comments
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-admin-section="news"
+                    onclick="showAdminSection('news')"
+                >
+                    <i class="fa-solid fa-newspaper"></i>
+                    News
+                </button>
+
+                <button
+                    class="sidebar-link"
+                    data-admin-section="reports"
+                    onclick="showAdminSection('reports')"
+                >
+                    <i class="fa-solid fa-chart-column"></i>
+                    Reports
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <button onclick="showHome()">
+                    <i class="fa-solid fa-house"></i>
+                    Back to website
+                </button>
+
+                <button onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <div class="dashboard-main">
+
+            <header class="dashboard-topbar">
+
+                <button
+                    class="dashboard-menu"
+                    onclick="toggleAdminSidebar()"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div>
+
+                    <span class="eyebrow">ADMIN PANEL</span>
+
+                    <h1>System overview</h1>
+
+                </div>
+
+                <div class="topbar-actions">
+
+                    <div class="admin-user">
+
+                        <div class="top-avatar admin-avatar">
+                            A
+                        </div>
+
+                        <div>
+
+                            <strong>Administrator</strong>
+                            <span>System Manager</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- ADMIN DASHBOARD -->
+
+            <div
+                class="admin-section active"
+                id="admin-dashboard"
+            >
+
+                <div class="admin-welcome">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            TODAY'S OVERVIEW
+                        </span>
+
+                        <h2>
+                            Welcome to GoBus Admin
+                        </h2>
+
+                        <p>
+                            Manage your buses, bookings, users and reports.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="openBusModal()"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Add new bus
+                    </button>
+
+                </div>
+
+                <div class="stats-grid admin-stats">
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-bus"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Total buses</span>
+
+                            <strong id="adminBusCount">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Total bookings</span>
+
+                            <strong id="adminBookingCount">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Registered users</span>
+
+                            <strong id="adminUserCount">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-stat">
+
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Total revenue</span>
+
+                            <strong id="adminRevenue">
+                                ₹0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-columns">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    RECENT BOOKINGS
+                                </span>
+
+                                <h3>Latest transactions</h3>
+
+                            </div>
+
+                            <button
+                                onclick="showAdminSection('bookings')"
+                            >
+                                View all
+                            </button>
+
+                        </div>
+
+                        <div id="adminRecentBookings"></div>
+
+                    </div>
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    QUICK MANAGEMENT
+                                </span>
+
+                                <h3>Admin actions</h3>
+
+                            </div>
+
+                        </div>
+
+                        <div class="quick-actions">
+
+                            <button onclick="openBusModal()">
+
+                                <span class="quick-icon blue">
+                                    <i class="fa-solid fa-bus"></i>
+                                </span>
+
+                                <span>
+                                    <strong>Add bus</strong>
+                                    <small>Create a new bus</small>
+                                </span>
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                            <button onclick="showAdminSection('reports')">
+
+                                <span class="quick-icon green">
+                                    <i class="fa-solid fa-chart-column"></i>
+                                </span>
+
+                                <span>
+                                    <strong>View reports</strong>
+                                    <small>Business statistics</small>
+                                </span>
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                            <button onclick="showAdminSection('users')">
+
+                                <span class="quick-icon purple">
+                                    <i class="fa-solid fa-users"></i>
+                                </span>
+
+                                <span>
+                                    <strong>Manage users</strong>
+                                    <small>View registered users</small>
+                                </span>
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN BUSES -->
+
+            <div
+                class="admin-section"
+                id="admin-buses"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">TRANSPORT MANAGEMENT</span>
+
+                        <h2>Bus management</h2>
+
+                        <p>
+                            Add, edit and maintain your bus fleet.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="openBusModal()"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Add bus
+                    </button>
+
+                </div>
+
+                <div class="table-card">
+
+                    <div class="table-toolbar">
+
+                        <input
+                            type="text"
+                            id="busSearchAdmin"
+                            placeholder="Search buses..."
+                            oninput="renderAdminBuses()"
+                        >
+
+                    </div>
+
+                    <div class="table-scroll">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Bus</th>
+                                    <th>Route</th>
+                                    <th>Type</th>
+                                    <th>Departure</th>
+                                    <th>Seats</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="adminBusTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN BOOKINGS -->
+
+            <div
+                class="admin-section"
+                id="admin-bookings"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">TRANSACTIONS</span>
+
+                        <h2>Booking management</h2>
+
+                        <p>
+                            View and manage all customer bookings.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="table-card">
+
+                    <div class="table-scroll">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Passenger</th>
+                                    <th>Bus</th>
+                                    <th>Journey</th>
+                                    <th>Seats</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="adminBookingTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN USERS -->
+
+            <div
+                class="admin-section"
+                id="admin-users"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">CUSTOMERS</span>
+
+                        <h2>User management</h2>
+
+                        <p>
+                            View registered passenger accounts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="table-card">
+
+                    <div class="table-scroll">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>Bookings</th>
+                                    <th>Joined</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="adminUserTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN COMMENTS -->
+
+            <div
+                class="admin-section"
+                id="admin-comments"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">CUSTOMER FEEDBACK</span>
+
+                        <h2>Comments & reviews</h2>
+
+                        <p>
+                            Moderate passenger feedback.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div id="adminCommentsList"></div>
+
+            </div>
+
+
+            <!-- ADMIN NEWS -->
+
+            <div
+                class="admin-section"
+                id="admin-news"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">CONTENT MANAGEMENT</span>
+
+                        <h2>News & announcements</h2>
+
+                        <p>
+                            Manage announcements shown to customers.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="openNewsModal()"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Add announcement
+                    </button>
+
+                </div>
+
+                <div id="newsAdminList"></div>
+
+            </div>
+
+
+            <!-- ADMIN REPORTS -->
+
+            <div
+                class="admin-section"
+                id="admin-reports"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">BUSINESS INTELLIGENCE</span>
+
+                        <h2>Reports</h2>
+
+                        <p>
+                            Track bookings, revenue and system activity.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="outline-btn"
+                        onclick="printReport()"
+                    >
+                        <i class="fa-solid fa-print"></i>
+                        Print report
+                    </button>
+
+                </div>
+
+                <div class="report-grid">
+
+                    <div class="report-card">
+
+                        <span>Total revenue</span>
+
+                        <strong id="reportRevenue">
+                            ₹0
+                        </strong>
+
+                        <small>
+                            From completed bookings
+                        </small>
+
+                    </div>
+
+                    <div class="report-card">
+
+                        <span>Total bookings</span>
+
+                        <strong id="reportBookings">
+                            0
+                        </strong>
+
+                        <small>
+                            All time bookings
+                        </small>
+
+                    </div>
+
+                    <div class="report-card">
+
+                        <span>Average booking</span>
+
+                        <strong id="reportAverage">
+                            ₹0
+                        </strong>
+
+                        <small>
+                            Average transaction value
+                        </small>
+
+                    </div>
+
+                    <div class="report-card">
+
+                        <span>Active buses</span>
+
+                        <strong id="reportBuses">
+                            0
+                        </strong>
+
+                        <small>
+                            Currently available
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-card report-table-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                ROUTE PERFORMANCE
+                            </span>
+
+                            <h3>Bookings by route</h3>
+
+                        </div>
+
+                    </div>
+
+                    <div id="routeReport"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LOGIN MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="loginModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('loginModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-logo">
+
+            <span class="brand-icon">
+                <i class="fa-solid fa-bus-simple"></i>
+            </span>
+
+        </div>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">WELCOME BACK</span>
+
+            <h2>Sign in to GoBus</h2>
+
+            <p>
+                Manage your bookings and travel with ease.
+            </p>
+
+        </div>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label>Email address</label>
+
+                <div class="input-icon">
+
+                    <i class="fa-regular fa-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <div class="input-icon">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        onclick="togglePassword('loginPassword', this)"
+                    >
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="form-options">
+
+                <label class="remember">
+
+                    <input type="checkbox" id="rememberMe">
+
+                    Remember me
+
+                </label>
+
+                <button
+                    type="button"
+                    class="text-btn"
+                    onclick="switchToForgot()"
+                >
+                    Forgot password?
+                </button>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Sign in
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+
+        <div class="modal-divider">
+            <span>or</span>
+        </div>
+
+        <button
+            class="secondary-btn full-btn"
+            onclick="switchToRegister()"
+        >
+            Create a new account
+        </button>
+
+        <div class="demo-login">
+
+            <strong>Demo accounts</strong>
+
+            <p>
+                User: user@gobus.com / user123
+            </p>
+
+            <p>
+                Admin: admin@gobus.com / admin123
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     REGISTER MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="registerModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('registerModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">JOIN GOBUS</span>
+
+            <h2>Create your account</h2>
+
+            <p>
+                Book faster and keep all your journeys together.
+            </p>
+
+        </div>
+
+        <form id="registerForm">
+
+            <div class="form-group">
+
+                <label>Full name</label>
+
+                <input
+                    type="text"
+                    id="registerName"
+                    placeholder="Your full name"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email address</label>
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="you@example.com"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Phone number</label>
+
+                <input
+                    type="tel"
+                    id="registerPhone"
+                    placeholder="10 digit mobile number"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Minimum 6 characters"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Create account
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+
+        <p class="modal-switch">
+
+            Already have an account?
+
+            <button onclick="switchToLogin()">
+                Sign in
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FORGOT PASSWORD MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="forgotModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('forgotModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="forgot-icon">
+
+            <i class="fa-solid fa-key"></i>
+
+        </div>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">ACCOUNT RECOVERY</span>
+
+            <h2>Forgot your password?</h2>
+
+            <p>
+                Enter your email and we'll simulate a
+                password reset request.
+            </p>
+
+        </div>
+
+        <form id="forgotForm">
+
+            <div class="form-group">
+
+                <label>Email address</label>
+
+                <input
+                    type="email"
+                    id="forgotEmail"
+                    placeholder="you@example.com"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Send reset link
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+
+        </form>
+
+        <p class="modal-switch">
+
+            Remember your password?
+
+            <button onclick="switchToLogin()">
+                Sign in
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BUS DETAILS MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="busDetailsModal">
+
+    <div class="modal wide-modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('busDetailsModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div id="busDetailsContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BOOKING MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="bookingModal">
+
+    <div class="modal booking-modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('bookingModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="booking-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    COMPLETE BOOKING
+                </span>
+
+                <h2>Passenger details</h2>
+
+            </div>
+
+            <div class="booking-step">
+                Step 1 of 2
+            </div>
+
+        </div>
+
+        <div id="bookingBusSummary"></div>
+
+        <form id="bookingForm">
+
+            <div id="passengerFields"></div>
+
+            <div class="payment-preview">
+
+                <div>
+
+                    <span>Total payable</span>
+
+                    <strong id="bookingTotal">
+                        ₹0
+                    </strong>
+
+                </div>
+
+                <div class="secure-payment">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    Secure checkout
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Continue to payment
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAYMENT MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="paymentModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('paymentModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">
+                SECURE CHECKOUT
+            </span>
+
+            <h2>Payment</h2>
+
+            <p>
+                This is a demo payment gateway.
+            </p>
+
+        </div>
+
+        <div class="payment-methods">
+
+            <button class="payment-method active">
+
+                <i class="fa-regular fa-credit-card"></i>
+
+                Card
+
+            </button>
+
+            <button class="payment-method">
+
+                <i class="fa-solid fa-building-columns"></i>
+
+                UPI
+
+            </button>
+
+            <button class="payment-method">
+
+                <i class="fa-solid fa-wallet"></i>
+
+                Wallet
+
+            </button>
+
+        </div>
+
+        <form id="paymentForm">
+
+            <div class="form-group">
+
+                <label>Card number</label>
+
+                <input
+                    type="text"
+                    id="cardNumber"
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="19"
+                    required
+                >
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Expiry</label>
+
+                    <input
+                        type="text"
+                        placeholder="MM/YY"
+                        maxlength="5"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CVV</label>
+
+                    <input
+                        type="password"
+                        placeholder="•••"
+                        maxlength="3"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="payment-total">
+
+                <span>Amount to pay</span>
+
+                <strong id="paymentAmount">
+                    ₹0
+                </strong>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                <i class="fa-solid fa-lock"></i>
+                Pay securely
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BOOKING SUCCESS MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="successModal">
+
+    <div class="modal success-modal">
+
+        <div class="success-animation">
+
+            <i class="fa-solid fa-check"></i>
+
+        </div>
+
+        <span class="eyebrow">
+            BOOKING CONFIRMED
+        </span>
+
+        <h2>You're all set!</h2>
+
+        <p>
+            Your bus ticket has been successfully booked.
+        </p>
+
+        <div id="successBookingDetails"></div>
+
+        <div class="success-actions">
+
+            <button
+                class="primary-btn"
+                onclick="goToMyBookings()"
+            >
+                View my booking
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="closeModal('successModal')"
+            >
+                Done
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     COMMENT MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="commentModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('commentModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">
+                SHARE YOUR EXPERIENCE
+            </span>
+
+            <h2>Rate your journey</h2>
+
+            <p>
+                Your feedback helps other travellers.
+            </p>
+
+        </div>
+
+        <form id="commentForm">
+
+            <input
+                type="hidden"
+                id="commentBusId"
+            >
+
+            <div class="rating-input">
+
+                <button type="button" data-rating="1">★</button>
+                <button type="button" data-rating="2">★</button>
+                <button type="button" data-rating="3">★</button>
+                <button type="button" data-rating="4">★</button>
+                <button type="button" data-rating="5">★</button>
+
+            </div>
+
+            <input
+                type="hidden"
+                id="commentRating"
+                value="5"
+            >
+
+            <div class="form-group">
+
+                <label>Your comment</label>
+
+                <textarea
+                    id="commentText"
+                    rows="5"
+                    placeholder="Tell us about your journey..."
+                    required
+                ></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Submit review
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BUS ADMIN MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="busModal">
+
+    <div class="modal wide-modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('busModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">
+                FLEET MANAGEMENT
+            </span>
+
+            <h2 id="busModalTitle">
+                Add new bus
+            </h2>
+
+            <p>
+                Enter the bus and route information.
+            </p>
+
+        </div>
+
+        <form id="busForm">
+
+            <input
+                type="hidden"
+                id="editBusId"
+            >
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Bus name</label>
+
+                    <input
+                        type="text"
+                        id="busName"
+                        placeholder="e.g. GreenLine Express"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Bus type</label>
+
+                    <select id="busType" required>
+
+                        <option value="Volvo AC">
+                            Volvo AC
+                        </option>
+
+                        <option value="Sleeper">
+                            Sleeper
+                        </option>
+
+                        <option value="Coach">
+                            Coach
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>From</label>
+
+                    <input
+                        type="text"
+                        id="busFrom"
+                        placeholder="Chennai"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>To</label>
+
+                    <input
+                        type="text"
+                        id="busTo"
+                        placeholder="Bangalore"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Departure</label>
+
+                    <input
+                        type="time"
+                        id="busDeparture"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Arrival</label>
+
+                    <input
+                        type="time"
+                        id="busArrival"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Price</label>
+
+                    <input
+                        type="number"
+                        id="busPrice"
+                        min="100"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Total seats</label>
+
+                    <input
+                        type="number"
+                        id="busSeats"
+                        min="10"
+                        max="60"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group full-span">
+
+                    <label>Bus image URL</label>
+
+                    <input
+                        type="url"
+                        id="busImage"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+                <div class="form-group full-span">
+
+                    <label>Description</label>
+
+                    <textarea
+                        id="busDescription"
+                        rows="4"
+                        placeholder="Describe the bus..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Save bus
+                <i class="fa-solid fa-check"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NEWS MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="newsModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('newsModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-heading">
+
+            <span class="eyebrow">
+                CONTENT
+            </span>
+
+            <h2>Add announcement</h2>
+
+        </div>
+
+        <form id="newsForm">
+
+            <div class="form-group">
+
+                <label>Title</label>
+
+                <input
+                    type="text"
+                    id="newsTitle"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Announcement</label>
+
+                <textarea
+                    id="newsContent"
+                    rows="5"
+                    required
+                ></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                class="primary-btn full-btn"
+            >
+                Publish announcement
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
